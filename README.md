@@ -29,7 +29,8 @@ You should see:
 ```
 
 ### Step 3 — Open the app
-Open `index.html` in your browser (double-click it or drag into Chrome/Firefox).
+Open your browser and go to `http://localhost:5000`.
+If you prefer, you can also open `index.html` directly, but the API works best when the server is running.
 
 ---
 

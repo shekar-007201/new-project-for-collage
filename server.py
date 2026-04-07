@@ -14,8 +14,8 @@ from flask_cors import CORS
 
 from database import init_db, get_connection
 
-app = Flask(__name__)
-CORS(app)  # Allow requests from the HTML file (file:// or any origin)
+app = Flask(__name__, static_folder=".", static_url_path="")
+CORS(app, resources={r"/api/*": {"origins": "*"}})  # Allow API requests from any origin
 
 # ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -255,10 +255,20 @@ def list_users():
     return jsonify([dict(r) for r in rows])
 
 
+@app.route("/")
+def index():
+    return app.send_static_file("index.html")
+
+
+@app.route("/<path:path>")
+def serve_static(path):
+    return app.send_static_file(path)
+
+
 # ── Run ────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     init_db()
     print("\n🚀 Expense Tracker API running at http://localhost:5000")
-    print("   Open index.html in your browser after starting this server.\n")
+    print("   Open http://localhost:5000 in your browser after starting this server.\n")
     app.run(debug=True, port=5000)
